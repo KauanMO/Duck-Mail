@@ -4,6 +4,7 @@ using Duck_Mail.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Duck_Mail.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20241110153948_Create Table Recipients")]
+    partial class CreateTableRecipients
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,75 +94,6 @@ namespace Duck_Mail.Migrations
                     b.ToTable("CampaignEmailTemplates");
                 });
 
-            modelBuilder.Entity("Duck_Mail.Models.ClickHistory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("BrowserType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("CampaignEmailTemplateId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ClickCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DeviceType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("FirstOpenedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("LastOpenedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("RecipientId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CampaignEmailTemplateId");
-
-                    b.HasIndex("RecipientId");
-
-                    b.ToTable("ClickHistories");
-                });
-
-            modelBuilder.Entity("Duck_Mail.Models.DeliveryErrorLog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Message")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RecipientId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RecipientId");
-
-                    b.ToTable("DeliveryErrorLogs");
-                });
-
             modelBuilder.Entity("Duck_Mail.Models.EmailTemplate", b =>
                 {
                     b.Property<int>("Id")
@@ -193,32 +127,6 @@ namespace Duck_Mail.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("EmailTemplates");
-                });
-
-            modelBuilder.Entity("Duck_Mail.Models.OpenHistory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CampaignEmailTemplateId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("OpenedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("RecipientId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CampaignEmailTemplateId");
-
-                    b.HasIndex("RecipientId");
-
-                    b.ToTable("OpenHistories");
                 });
 
             modelBuilder.Entity("Duck_Mail.Models.Recipient", b =>
@@ -275,51 +183,6 @@ namespace Duck_Mail.Migrations
                     b.Navigation("EmailTemplate");
                 });
 
-            modelBuilder.Entity("Duck_Mail.Models.ClickHistory", b =>
-                {
-                    b.HasOne("Duck_Mail.Models.CampaignEmailTemplate", null)
-                        .WithMany("ClickHistories")
-                        .HasForeignKey("CampaignEmailTemplateId");
-
-                    b.HasOne("Duck_Mail.Models.Recipient", "Recipient")
-                        .WithMany("ClickHistories")
-                        .HasForeignKey("RecipientId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Recipient");
-                });
-
-            modelBuilder.Entity("Duck_Mail.Models.DeliveryErrorLog", b =>
-                {
-                    b.HasOne("Duck_Mail.Models.Recipient", "Recipient")
-                        .WithMany("DeliveryErrorLogs")
-                        .HasForeignKey("RecipientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Recipient");
-                });
-
-            modelBuilder.Entity("Duck_Mail.Models.OpenHistory", b =>
-                {
-                    b.HasOne("Duck_Mail.Models.CampaignEmailTemplate", "CampaignEmailTemplate")
-                        .WithMany("OpenHistories")
-                        .HasForeignKey("CampaignEmailTemplateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Duck_Mail.Models.Recipient", "Recipient")
-                        .WithMany("OpenHistories")
-                        .HasForeignKey("RecipientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CampaignEmailTemplate");
-
-                    b.Navigation("Recipient");
-                });
-
             modelBuilder.Entity("Duck_Mail.Models.Recipient", b =>
                 {
                     b.HasOne("Duck_Mail.Models.CampaignEmailTemplate", "CampaignEmailTemplate")
@@ -338,25 +201,12 @@ namespace Duck_Mail.Migrations
 
             modelBuilder.Entity("Duck_Mail.Models.CampaignEmailTemplate", b =>
                 {
-                    b.Navigation("ClickHistories");
-
-                    b.Navigation("OpenHistories");
-
                     b.Navigation("Recipients");
                 });
 
             modelBuilder.Entity("Duck_Mail.Models.EmailTemplate", b =>
                 {
                     b.Navigation("CampaignEmailTemplates");
-                });
-
-            modelBuilder.Entity("Duck_Mail.Models.Recipient", b =>
-                {
-                    b.Navigation("ClickHistories");
-
-                    b.Navigation("DeliveryErrorLogs");
-
-                    b.Navigation("OpenHistories");
                 });
 #pragma warning restore 612, 618
         }

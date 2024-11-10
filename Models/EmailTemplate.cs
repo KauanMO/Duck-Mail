@@ -12,4 +12,5 @@ public class EmailTemplate
     public string TextBody { get; set; }
     public DateTime CreatedDate { get; set; } = DateTime.Now;
     public DateTime UpdatedDate { get; set; }
+    public virtual IEnumerable<CampaignEmailTemplate> CampaignEmailTemplates { get; set; } = [];
 }
