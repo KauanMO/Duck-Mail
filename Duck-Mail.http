@@ -1,0 +1,6 @@
+@Duck_Mail_HostAddress = http://localhost:5034
+
+GET {{Duck_Mail_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
