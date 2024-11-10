@@ -13,4 +13,5 @@ public class Recipient
     public DateTime SentDate { get; set; }
     public DateTime CreatedDate { get; set; } = DateTime.Now;
     public virtual CampaignEmailTemplate CampaignEmailTemplate { get; set; }
+    public virtual IEnumerable<ClickHistory> ClickHistories { get; set; } = [];
 }

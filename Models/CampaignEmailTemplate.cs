@@ -11,4 +11,5 @@ public class CampaignEmailTemplate
     public virtual Campaign Campaign { get; set; }
     public virtual EmailTemplate EmailTemplate { get; set; }
     public virtual IEnumerable<Recipient> Recipients { get; set; } = [];
+    public virtual IEnumerable<ClickHistory> ClickHistories { get; set; } = [];
 }
