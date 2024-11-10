@@ -10,6 +10,6 @@ public class EmailTemplate
     public string Subject { get; set; }
     public string HtmlBody { get; set; }
     public string TextBody { get; set; }
-    public DateTime CreatedDate { get; set; }
+    public DateTime CreatedDate { get; set; } = DateTime.Now;
     public DateTime UpdatedDate { get; set; }
 }
