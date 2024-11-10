@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Duck_Mail.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20241110162115_Create table ClickHistory OpenHistory DeliveryErrorLog")]
-    partial class CreatetableClickHistoryOpenHistoryDeliveryErrorLog
+    [Migration("20241110191059_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,7 +40,6 @@ namespace Duck_Mail.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -106,9 +105,6 @@ namespace Duck_Mail.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("CampaignEmailTemplateId")
-                        .HasColumnType("int");
-
                     b.Property<int>("ClickCount")
                         .HasColumnType("int");
 
@@ -126,8 +122,6 @@ namespace Duck_Mail.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CampaignEmailTemplateId");
 
                     b.HasIndex("RecipientId");
 
@@ -175,7 +169,6 @@ namespace Duck_Mail.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("HtmlBody")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -187,7 +180,6 @@ namespace Duck_Mail.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TextBody")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("UpdatedDate")
@@ -206,9 +198,6 @@ namespace Duck_Mail.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CampaignEmailTemplateId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("OpenedDate")
                         .HasColumnType("datetime2");
 
@@ -216,8 +205,6 @@ namespace Duck_Mail.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CampaignEmailTemplateId");
 
                     b.HasIndex("RecipientId");
 
@@ -280,10 +267,6 @@ namespace Duck_Mail.Migrations
 
             modelBuilder.Entity("Duck_Mail.Models.ClickHistory", b =>
                 {
-                    b.HasOne("Duck_Mail.Models.CampaignEmailTemplate", null)
-                        .WithMany("ClickHistories")
-                        .HasForeignKey("CampaignEmailTemplateId");
-
                     b.HasOne("Duck_Mail.Models.Recipient", "Recipient")
                         .WithMany("ClickHistories")
                         .HasForeignKey("RecipientId")
@@ -306,19 +289,11 @@ namespace Duck_Mail.Migrations
 
             modelBuilder.Entity("Duck_Mail.Models.OpenHistory", b =>
                 {
-                    b.HasOne("Duck_Mail.Models.CampaignEmailTemplate", "CampaignEmailTemplate")
-                        .WithMany("OpenHistories")
-                        .HasForeignKey("CampaignEmailTemplateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Duck_Mail.Models.Recipient", "Recipient")
                         .WithMany("OpenHistories")
                         .HasForeignKey("RecipientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("CampaignEmailTemplate");
 
                     b.Navigation("Recipient");
                 });
@@ -341,10 +316,6 @@ namespace Duck_Mail.Migrations
 
             modelBuilder.Entity("Duck_Mail.Models.CampaignEmailTemplate", b =>
                 {
-                    b.Navigation("ClickHistories");
-
-                    b.Navigation("OpenHistories");
-
                     b.Navigation("Recipients");
                 });
 

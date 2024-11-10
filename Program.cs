@@ -15,12 +15,15 @@ builder.Services.AddSwaggerGen();
 
 // SERVICES
 builder.Services.AddScoped<ICampaignService, CampaignService>();
+builder.Services.AddScoped<IEmailTemplateService, EmailTemplateService>();
 
 // BUILDERS
 builder.Services.AddScoped<ICampaignBuilder, CampaignBuilder>();
+builder.Services.AddScoped<IEmailTemplateBuilder, EmailTemplateBuilder>();
 
 // REPOSITORIES
 builder.Services.AddScoped<ICampaignRepository, CampaignRepository>();
+builder.Services.AddScoped<IEmailTemplateRepository, EmailTemplateRepository>();
 
 var sqlServerConnectionString = builder.Configuration["ConnectionStrings:Duckmail"];
 builder.Services.AddDbContext<DatabaseContext>(opts =>
