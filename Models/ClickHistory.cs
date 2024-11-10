@@ -12,6 +12,6 @@ public class ClickHistory
     public int ClickCount { get; set; }
     public DateTime FirstOpenedDate { get; set; }
     public DateTime LastOpenedDate { get; set; }
-    public virtual CampaignEmailTemplate CampaignEmailTemplate { get; set; }
     public virtual Recipient Recipient { get; set; }
+    public int RecipientId { get; set; }
 }

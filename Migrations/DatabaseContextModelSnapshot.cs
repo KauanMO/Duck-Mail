@@ -103,7 +103,7 @@ namespace Duck_Mail.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CampaignEmailTemplateId")
+                    b.Property<int?>("CampaignEmailTemplateId")
                         .HasColumnType("int");
 
                     b.Property<int>("ClickCount")
@@ -195,6 +195,32 @@ namespace Duck_Mail.Migrations
                     b.ToTable("EmailTemplates");
                 });
 
+            modelBuilder.Entity("Duck_Mail.Models.OpenHistory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CampaignEmailTemplateId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("OpenedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RecipientId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CampaignEmailTemplateId");
+
+                    b.HasIndex("RecipientId");
+
+                    b.ToTable("OpenHistories");
+                });
+
             modelBuilder.Entity("Duck_Mail.Models.Recipient", b =>
                 {
                     b.Property<int>("Id")
@@ -251,19 +277,15 @@ namespace Duck_Mail.Migrations
 
             modelBuilder.Entity("Duck_Mail.Models.ClickHistory", b =>
                 {
-                    b.HasOne("Duck_Mail.Models.CampaignEmailTemplate", "CampaignEmailTemplate")
+                    b.HasOne("Duck_Mail.Models.CampaignEmailTemplate", null)
                         .WithMany("ClickHistories")
-                        .HasForeignKey("CampaignEmailTemplateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CampaignEmailTemplateId");
 
                     b.HasOne("Duck_Mail.Models.Recipient", "Recipient")
                         .WithMany("ClickHistories")
                         .HasForeignKey("RecipientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
-
-                    b.Navigation("CampaignEmailTemplate");
 
                     b.Navigation("Recipient");
                 });
@@ -275,6 +297,25 @@ namespace Duck_Mail.Migrations
                         .HasForeignKey("RecipientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Recipient");
+                });
+
+            modelBuilder.Entity("Duck_Mail.Models.OpenHistory", b =>
+                {
+                    b.HasOne("Duck_Mail.Models.CampaignEmailTemplate", "CampaignEmailTemplate")
+                        .WithMany("OpenHistories")
+                        .HasForeignKey("CampaignEmailTemplateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Duck_Mail.Models.Recipient", "Recipient")
+                        .WithMany("OpenHistories")
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CampaignEmailTemplate");
 
                     b.Navigation("Recipient");
                 });
@@ -299,6 +340,8 @@ namespace Duck_Mail.Migrations
                 {
                     b.Navigation("ClickHistories");
 
+                    b.Navigation("OpenHistories");
+
                     b.Navigation("Recipients");
                 });
 
@@ -312,6 +355,8 @@ namespace Duck_Mail.Migrations
                     b.Navigation("ClickHistories");
 
                     b.Navigation("DeliveryErrorLogs");
+
+                    b.Navigation("OpenHistories");
                 });
 #pragma warning restore 612, 618
         }
