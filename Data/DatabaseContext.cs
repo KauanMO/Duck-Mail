@@ -12,4 +12,5 @@ public class DatabaseContext : DbContext
     public DbSet<CampaignEmailTemplate> CampaignEmailTemplates { get; set; }
     public DbSet<Recipient> Recipients { get; set; }
     public DbSet<ClickHistory> ClickHistories { get; set; }
+    public DbSet<DeliveryErrorLog> DeliveryErrorLogs { get; set; }
 }
