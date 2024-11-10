@@ -9,4 +9,5 @@ public class DatabaseContext : DbContext
 
     public DbSet<EmailTemplate> EmailTemplates { get; set; }
     public DbSet<Campaign> Campaigns { get; set; }
+    public DbSet<CampaignEmailTemplate> CampaignEmailTemplates { get; set; }
 }

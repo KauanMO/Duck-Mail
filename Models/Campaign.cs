@@ -14,4 +14,5 @@ public class Campaign
     public int TotalCount { get; set; }
     public DateTime CreatedDate { get; set; } = DateTime.Now;
     public DateTime ScheduledDate { get; set; }
+    public virtual IEnumerable<CampaignEmailTemplate> CampaignEmailTemplates { get; set; } = [];
 }
