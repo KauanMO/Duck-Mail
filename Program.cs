@@ -7,8 +7,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
-
 var sqlServerConnectionString = builder.Configuration["ConnectionStrings:Duckmail"];
 builder.Services.AddDbContext<DatabaseContext>(opts =>
 {
@@ -16,6 +14,8 @@ builder.Services.AddDbContext<DatabaseContext>(opts =>
         .UseSqlServer(sqlServerConnectionString)
         .UseLazyLoadingProxies();
 });
+
+var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {

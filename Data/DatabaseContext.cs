@@ -5,7 +5,7 @@ namespace Duck_Mail.Data;
 
 public class DatabaseContext : DbContext
 {
-    public DatabaseContext(DbContextOptions opts) : base(opts) { }
+    public DatabaseContext(DbContextOptions<DatabaseContext> opts) : base(opts) { }
 
     public DbSet<EmailTemplate> EmailTemplates { get; set; }
 }
